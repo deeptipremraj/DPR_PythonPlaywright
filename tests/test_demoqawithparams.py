@@ -9,7 +9,9 @@ import pytest
     ]
 )
 def test_example(page: Page, firstname, lastname, email) -> None:
+    #arrange
     page.goto("https://demoqa.com/automation-practice-form")
+    #act
     page.get_by_role("textbox", name="First Name").fill(firstname)
     page.get_by_role("textbox", name="Last Name").fill(lastname)
     page.get_by_role("textbox", name="name@example.com").fill(email)
@@ -22,5 +24,6 @@ def test_example(page: Page, firstname, lastname, email) -> None:
     page.locator("#state > .css-13cymwt-control > .css-hlgwow > .css-19bb58m").click()
     page.locator("div").filter(has_text=re.compile(r"^Select City$")).first.click()
     page.get_by_role("button", name="Submit").click()
+    #assert
     assert page.get_by_text("Thanks for submitting the form").is_visible()
     page.get_by_role("button", name="Close").click()
