@@ -1,0 +1,30 @@
+import re
+from playwright.sync_api import Page, expect
+
+
+def test_example(page: Page) -> None:
+    page.goto("https://demoqa.com/automation-practice-form")
+    page.get_by_role("textbox", name="First Name").click()
+    page.get_by_role("textbox", name="Last Name").click()
+    page.get_by_role("textbox", name="name@example.com").click()
+    page.get_by_role("radio", name="Female").check()
+    page.get_by_role("textbox", name="Mobile Number").click()
+    page.locator("#subjectsContainer div").nth(3).click()
+    page.locator("div").filter(has_text=re.compile(r"^Sports$")).click()
+    page.locator("#uploadPicture").click()
+    page.get_by_role("textbox", name="Current Address").click()
+    page.locator("#state > .css-13cymwt-control > .css-hlgwow > .css-19bb58m").click()
+    page.locator("div").filter(has_text=re.compile(r"^Select City$")).first.click()
+    page.get_by_role("button", name="Submit").click()
+    page.get_by_role("textbox", name="Mobile Number").click()
+    page.get_by_role("button", name="Submit").click()
+    page.get_by_role("textbox", name="Mobile Number").click()
+    page.get_by_role("textbox", name="Mobile Number").fill("1234567878")
+    page.get_by_role("button", name="Submit").click()
+    page.get_by_role("textbox", name="First Name").click()
+    page.get_by_role("textbox", name="First Name").fill("t")
+    page.locator("#userName-wrapper div").nth(3).click()
+    page.get_by_role("textbox", name="Last Name").fill("e")
+    page.get_by_role("button", name="Submit").click()
+    expect(page.get_by_text("Thanks for submitting the form")).to_be_visible()
+    page.get_by_role("button", name="Close").click()

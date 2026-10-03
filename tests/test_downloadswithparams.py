@@ -1,0 +1,15 @@
+from playwright.sync_api import Page, Dialog, expect
+import pytest
+
+@pytest.mark.parametrize(
+    "filename", 
+    ["some-file.txt", "ssample.txt"
+    ]
+)
+def test_download(page: Page, filename: str) -> None:
+    page.goto("https://the-internet.herokuapp.com/download", timeout=60000, wait_until="domcontentloaded")
+    with page.expect_download() as download_info:
+        page.get_by_role("link", name="some-file.txt").click()
+    download = download_info.value
+    print(download.suggested_filename)
+    assert download.suggested_filename == "some-file.txt"
