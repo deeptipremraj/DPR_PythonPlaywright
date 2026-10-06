@@ -12,4 +12,5 @@ jobs:
           python-version: "3.12"
       - run: pip install -r requirement.txt
       - run: playwright install --with-deps chromium
-      - run: xvfb-run python -m pytest
+      - run: find . -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null; find . -type f -name "*.pyc" -delete 2>/dev/null; rm -rf .pytest_cache 2>/dev/null; true
+      - run: xvfb-run python -m pytest --cache-clear
