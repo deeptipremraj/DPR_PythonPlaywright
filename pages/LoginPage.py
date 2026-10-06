@@ -17,10 +17,11 @@ class LoginPage:
 
     #Methods
     def open(self):
-        self.page.goto("/")
+        self.page.goto("https://www.saucedemo.com")
 
     #Standard user login method
     def login_standard_user(self):
+        self.open()
         self.username_field.fill("standard_user")
         self.password_field.fill("secret_sauce")
         self.login_button.click()
