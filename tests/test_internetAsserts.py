@@ -1,8 +1,10 @@
 #test case 1 - click action
 
+import pytest
 from playwright.sync_api import Page, expect
 
 
+@pytest.mark.external
 def test_add_remove_elements(page: Page) -> None:
     delete_button = page.get_by_role("button", name="Delete") 
     add_element_button = page.get_by_role("button", name="Add Element")

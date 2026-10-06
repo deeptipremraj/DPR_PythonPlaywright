@@ -1,7 +1,9 @@
 import re
+import pytest
 from playwright.sync_api import Page, expect
 
 
+@pytest.mark.external
 def test_example(page: Page) -> None:
     page.goto("https://demoqa.com/automation-practice-form")
     page.get_by_role("textbox", name="First Name").fill("John")
