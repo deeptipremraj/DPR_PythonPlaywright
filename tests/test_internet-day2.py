@@ -1,5 +1,6 @@
 #test case 1 - click action
 
+import pytest
 from playwright.sync_api import Page, expect
 
 
@@ -13,6 +14,7 @@ def test_add_remove_elements(page: Page) -> None:
     assert delete_button.is_visible
     #assert delete_button.count() == 1
     
+@pytest.mark.external
 def test_fill_and_press_enter(page: Page) -> None:
     page.goto("https://the-internet.herokuapp.com/login", timeout=60000, wait_until="domcontentloaded")
     username_field = page.get_by_role("textbox", name="Username")
@@ -70,6 +72,7 @@ def test_context_menu_2(page: Page) -> None:
     page.locator("#hot-spot").click(button="right")
     assert page.get_by_text("Context menu items are custom").is_visible()
 
+@pytest.mark.external
 def test_download(page: Page) -> None:
     page.goto("https://the-internet.herokuapp.com/download", timeout=60000, wait_until="domcontentloaded")
     with page.expect_download() as download_info:
@@ -78,6 +81,7 @@ def test_download(page: Page) -> None:
     print(download.suggested_filename)
     assert download.suggested_filename == "some-file.txt"
 
+@pytest.mark.external
 def test_entry_ad(page: Page) -> None:
     page.goto("https://the-internet.herokuapp.com/entry_ad", timeout=60000, wait_until="domcontentloaded")
     modal = page.locator("#modal")
