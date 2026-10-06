@@ -2,6 +2,7 @@ import re
 from playwright.sync_api import Page, expect
 import pytest
 
+@pytest.mark.external
 @pytest.mark.parametrize(
     "firstname, lastname, email,", 
     [

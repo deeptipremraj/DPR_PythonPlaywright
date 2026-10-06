@@ -62,13 +62,6 @@ def test_drag_and_drop(page: Page) -> None:
     source.drag_to(target)
     target.drag_to(source)
     
-#def test_context_menu(page: Page) -> None:
-    page.goto("https://the-internet.herokuapp.com/context_menu", timeout=60000, wait_until="domcontentloaded")
-    with page.expect_dialog() as dialog_info:
-        page.locator("#hot-spot").click(button="right")
-        assert dialog_info.value.message == "Context menu items are custom"
-        dialog_info.value.accept()
-    
 
 def test_context_menu_2(page: Page) -> None:
     page.goto("https://the-internet.herokuapp.com/context_menu", timeout=60000, wait_until="domcontentloaded")

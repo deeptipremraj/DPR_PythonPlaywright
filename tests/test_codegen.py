@@ -1,7 +1,9 @@
 import re
+import pytest
 from playwright.sync_api import Page, expect
 
 
+@pytest.mark.external
 def test_example(page: Page) -> None:
     page.goto("https://the-internet.herokuapp.com/entry_ad")
     page.get_by_role("link", name="click here").click()

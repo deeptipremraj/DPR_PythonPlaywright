@@ -11,7 +11,7 @@ def test_example(page: Page) -> None:
     page.get_by_role("textbox", name="Mobile Number").fill("1234567878")
     page.locator("#subjectsContainer div").nth(3).click()
     page.locator("div").filter(has_text=re.compile(r"^Sports$")).click()
-    page.locator("#uploadPicture").click("test-data/BhumikaPremSchedule.PNG")
+    page.locator("#uploadPicture").set_input_files("test-data/BhumikaPremSchedule.PNG")
     page.get_by_role("textbox", name="Current Address").fill("123 Main St, Anytown, USA")
     page.locator("#state > .css-13cymwt-control > .css-hlgwow > .css-19bb58m").click()
     page.locator("div").filter(has_text=re.compile(r"^Select City$")).first.click()
