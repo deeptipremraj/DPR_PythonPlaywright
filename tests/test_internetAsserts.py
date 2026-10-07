@@ -15,6 +15,7 @@ def test_add_remove_elements(page: Page) -> None:
     assert delete_button.is_visible
     #assert delete_button.count() == 1
     
+@pytest.mark.external
 def test_fill_and_press_enter(page: Page) -> None:
     page.goto("https://the-internet.herokuapp.com/login", timeout=60000, wait_until="domcontentloaded")
     username_field = page.get_by_role("textbox", name="Username")
@@ -30,6 +31,7 @@ def test_fill_and_press_enter(page: Page) -> None:
     expected_text = "Welcome to the Secure Area. When you are done click logout below"
     assert expected_text in actual_text
 
+@pytest.mark.external
 def test_checkboxes(page: Page) -> None:
     page.goto("https://the-internet.herokuapp.com/checkboxes", timeout=60000, wait_until="domcontentloaded")
     boxes = page.get_by_role("checkbox")
@@ -38,12 +40,14 @@ def test_checkboxes(page: Page) -> None:
     assert boxes.first.is_checked()
     assert not boxes.last.is_checked()
 
+@pytest.mark.external
 def test_dropdown(page: Page) -> None:
     page.goto("https://the-internet.herokuapp.com/dropdown", timeout=60000, wait_until="domcontentloaded")
     dropdown = page.locator("#dropdown")
     dropdown.select_option(label="Option 1")
     dropdown.select_option("Option 2")
 
+@pytest.mark.external
 def test_hover(page: Page) -> None:
     page.goto("https://the-internet.herokuapp.com/hovers", timeout=60000, wait_until="domcontentloaded")
     # images = page.get_by_role("img")
@@ -52,11 +56,13 @@ def test_hover(page: Page) -> None:
     image = page.locator(".figure").first
     image.hover() 
 
+@pytest.mark.external
 def test_upload(page: Page) -> None:
     page.goto("https://the-internet.herokuapp.com/upload", timeout=60000, wait_until="domcontentloaded")
     page.locator("#file-upload").set_input_files("test-data/test.txt")
     page.locator("#file-submit").click()
 
+@pytest.mark.external
 def test_drag_and_drop(page: Page) -> None:
     page.goto("https://the-internet.herokuapp.com/drag_and_drop", timeout=60000, wait_until="domcontentloaded")
     source = page.locator("#column-a")
