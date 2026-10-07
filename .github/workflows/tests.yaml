@@ -35,7 +35,7 @@ jobs:
       - run: playwright install --with-deps chromium
 
       - name: Run tests
-        run: xvfb-run python -m pytest --tracing=retain-on-failure
+        run: xvfb-run python -m pytest --cache-clear -m "not external" --tracing=retain-on-failure -v
 
       - name: Upload report and artifacts
         if: always()
