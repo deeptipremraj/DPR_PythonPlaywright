@@ -1,48 +1,58 @@
 """Test checkout page using fixtures"""
-import pytest
 from pages.CheckoutPage import CheckoutPage
+import pytest
 
 
-def test_fill_out_checkout_form(checkout_page: CheckoutPage):
-    """Test filling out checkout form"""
-    assert checkout_page.get_title() in ["Checkout: Your Information", "Checkout: Your Information."]
-    checkout_page.fill_out_checkout_form("John", "Doe", "1234567890")
-    checkout_page.click_continue()
+def test_fill_out_checkout_form(start_checkout: CheckoutPage):
+    """Test filling out checkout form from the start of checkout"""
+    assert start_checkout.get_title() in ["Checkout: Your Information", "Checkout: Your Information."]
+    start_checkout.fill_out_checkout_form("John", "Doe", "1234567890")
+    start_checkout.click_continue()
     # After continue, should be on overview page
-    assert "Checkout: Overview" in checkout_page.get_title()
+    start_checkout.finish_button.wait_for()
+    assert "Checkout: Overview" in start_checkout.get_title()
 
 
-def test_all_information_required(checkout_page: CheckoutPage):
+def test_all_information_required(start_checkout: CheckoutPage):
     """Test that all fields are required"""
-    checkout_page.fill_out_checkout_form("", "", "")
-    checkout_page.click_continue()
-    error_msg = checkout_page.get_error_message()
+    start_checkout.fill_out_checkout_form("", "", "")
+    start_checkout.click_continue()
+    error_msg = start_checkout.get_error_message()
     assert "required" in error_msg.lower()
 
 
-def test_verify_thank_you_message(checkout_page: CheckoutPage):
-    """Test thank you message appears after checkout"""
-    checkout_page.fill_out_checkout_form("John", "Doe", "1234567890")
-    checkout_page.click_continue()
-    checkout_page.click_finish()
-    thank_you = checkout_page.get_thank_you_message()
+def test_verify_thank_you_message(complete_checkout: CheckoutPage):
+    """Test thank you message appears after checkout is complete"""
+    thank_you = complete_checkout.get_thank_you_message()
     assert "thank" in thank_you.lower() or "complete" in thank_you.lower()
 
 
-def test_complete_checkout_workflow(checkout_page: CheckoutPage):
-    """Test complete checkout workflow from form to confirmation"""
-    # Verify we're on checkout information page
-    assert "Your Information" in checkout_page.get_title()
-    
-    # Fill and submit checkout form
-    checkout_page.fill_out_checkout_form("Jane", "Smith", "9876543210")
-    checkout_page.click_continue()
-    
-    # Verify we're on overview page
-    assert "Overview" in checkout_page.get_title()
-    
-    # Complete purchase
-    checkout_page.click_finish()
-    
-    # Verify completion
-    assert "Complete" in checkout_page.get_title()
+def test_complete_checkout_workflow(complete_checkout: CheckoutPage):
+    """Test the completed checkout lands on the confirmation page"""
+    assert "Complete" in complete_checkout.get_title()
+    assert complete_checkout.get_thank_you_message() == "Thank you for your order!"
+
+@pytest.mark.parametrize(
+    "first_name, last_name, postal_code", 
+    [
+    ("John", "Doe", "1234567890"), 
+    ("Jane", "Doe", "0987654321")
+    ]
+)
+def test_checkout_with_different_customers(start_checkout: CheckoutPage, first_name: str, last_name: str, postal_code: str):
+    """Test checkout with different customers"""
+    start_checkout.fill_out_checkout_form(first_name, last_name, postal_code)
+    start_checkout.click_continue()
+    start_checkout.finish_button.wait_for()
+    start_checkout.click_finish()
+    start_checkout.thank_you_message.wait_for()
+    assert "Checkout: Complete!" in start_checkout.get_title()
+    assert start_checkout.get_thank_you_message() == "Thank you for your order!"
+
+
+def test_back_home_after_checkout(complete_checkout: CheckoutPage):
+    """Test back home after checkout"""
+    inventory_page = complete_checkout.back_home()
+    inventory_page.title.wait_for()
+    assert "Products" in inventory_page.get_title()
+

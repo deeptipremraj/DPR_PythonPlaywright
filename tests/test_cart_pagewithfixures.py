@@ -42,4 +42,10 @@ def test_cart_page_loads(cart_page: CartPage):
     assert descriptions[0]  # Non-empty description
     assert descriptions[1]  # Non-empty description
 
+def test_added_items_are_visible(cart_with_items: CartPage):
+    """Test added items are visible"""
+    cart_page = cart_with_items("sauce-labs-backpack", "sauce-labs-bike-light")
+    assert cart_page.get_inventory_item_count() == 2
+    assert cart_page.get_inventory_item_names() == ["Sauce Labs Backpack", "Sauce Labs Bike Light"]
+
 

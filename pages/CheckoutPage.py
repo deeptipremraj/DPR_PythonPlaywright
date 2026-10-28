@@ -10,6 +10,7 @@ class CheckoutPage:
         self.postal_code_input = page.locator("[data-test='postalCode']")
         self.continue_button = page.locator("[data-test='continue']")
         self.finish_button = page.locator("[data-test='finish']")
+        self.back_home_button = page.locator("[data-test='back-to-products']")
         self.error_message = page.locator("[data-test='error']")
         self.title = page.locator(".title")
         self.thank_you_message = page.locator(".complete-header")
@@ -28,6 +29,11 @@ class CheckoutPage:
     def click_finish(self):
         """Click the finish button"""
         self.finish_button.click()
+
+    def back_home(self):
+        from pages.InventoryPage import InventoryPage
+        self.back_home_button.click()
+        return InventoryPage(self.page)
 
     # Getters
     def get_title(self):
