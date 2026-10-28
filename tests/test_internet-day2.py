@@ -77,7 +77,7 @@ def test_context_menu_2(page: Page) -> None:
 def test_download(page: Page) -> None:
     page.goto("https://the-internet.herokuapp.com/download", timeout=60000, wait_until="domcontentloaded")
     with page.expect_download() as download_info:
-        page.get_by_role("link", name="some-file.txt").click()
+        page.get_by_role("link", name="some-file.txt", exact=True).click()
     download = download_info.value
     print(download.suggested_filename)
     assert download.suggested_filename == "some-file.txt"
