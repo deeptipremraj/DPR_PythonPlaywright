@@ -34,7 +34,7 @@ def auth_state(browser):
     context=browser.new_context(base_url="https://www.saucedemo.com/")
     login_page = LoginPage(context.new_page())
     login_page.open()
-    login_page.login_standard_user()44ez
+    login_page.login_standard_user()
     context.storage_state(path="AUTH_STATE_PATH")
     yield context
     context.close() 
